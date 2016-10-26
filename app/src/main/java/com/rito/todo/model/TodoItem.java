@@ -10,6 +10,10 @@ public class TodoItem {
     public String description;
     public int isComplete;
 
+    public TodoItem() {
+
+    }
+
     public String getTitle() {
         return title;
     }

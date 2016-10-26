@@ -19,56 +19,10 @@
     tools:showIn="@layout/app_bar_main">
 
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/header_text"
-            style="@style/headerTextViewStyle"
-            android:text="@string/activity_main_header_text"/>
 
-        <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-            android:layout_below="@id/header_text"
-            android:id="@+id/lbl_progress"
-        android:text="@string/label_progress"/>
-
-       <LinearLayout
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:id="@+id/progress_layout"
-           android:layout_below="@id/lbl_progress"
-           android:orientation="horizontal">
-           <ProgressBar
-               android:layout_width="0dp"
-               android:layout_weight="1"
-               android:layout_height="wrap_content"
-               android:progress="50"
-               android:id="@+id/progress_bar"
-               style="@android:style/Widget.Holo.Light.ProgressBar.Horizontal"
-               android:layout_marginRight="3dp"
-               android:layout_marginEnd="3dp" />
-           <LinearLayout
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-
-               android:orientation="vertical">
-               <TextView
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:id="@+id/todo_items_progress_value"
-                   android:text="@string/place_holder_progress_value"/>
-               <TextView
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:text="@string/text_done"/>
-
-           </LinearLayout>
-       </LinearLayout>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/progress_layout"
         android:id="@+id/todo_title"
         android:text="@string/text_todo_title">
         <requestFocus/>

@@ -92,7 +92,10 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 String title= inputNewItemTitle.getText().toString();
-                String desc=inputNewItemDesc.getText().toString();;
+                if(title.isEmpty()){
+                    return;
+                }
+                String desc=inputNewItemDesc.getText().toString();
                 TodoItem todoItem= new TodoItem(title,desc,0 );
                 insertItem(todoItem);
                 todoItems.add(todoItem);
@@ -114,13 +117,13 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onInvalidated() {
                 super.onInvalidated();
-              calculateProgress();
+            //  calculateProgress();
             }
 
 
         });
         todoListView.setAdapter(adapter);
-        calculateProgress();
+       // calculateProgress();
 
     }
 
@@ -148,7 +151,7 @@ public class MainActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        
+
 
 
         return super.onOptionsItemSelected(item);
@@ -202,7 +205,7 @@ public class MainActivity extends AppCompatActivity
                 sortOrder
         );
         ArrayList<TodoItem> itemsList= new ArrayList<>();
-
+        itemsList.add(new TodoItem());
         try {
             while (resultsCursor.moveToNext()) {
                 long itemId = resultsCursor.getLong(resultsCursor.getColumnIndexOrThrow(TodoContract.TodoEntry._ID));
@@ -220,14 +223,7 @@ public class MainActivity extends AppCompatActivity
 
         return itemsList;
     }
-    public void calculateProgress(){
-      int nCompletedItems= dbHelper.getCompletedCount();
-      int nItems = todoItems.size();
-        double percentage = (double)nCompletedItems/ (double)nItems *100;
-        textViewProgressval.setText((int)percentage + " %");
-        progressBar.setProgress((int)percentage);
 
-    }
     private void refreshAdapter(){
         adapter.clear();
         adapter.addAll(getTodoItems());

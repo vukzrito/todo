@@ -28,7 +28,7 @@ public class TodoDbHelper extends SQLiteOpenHelper {
             "DROP TABLE IF EXISTS " + TABLE_NAME;
 
 
-    public static final int DATABASE_VERSION = 6;
+    public static final int DATABASE_VERSION = 7;
     public static final String DATABASE_NAME = "todo.db";
 
 
@@ -59,8 +59,16 @@ public class TodoDbHelper extends SQLiteOpenHelper {
         String countQuery = "SELECT  * FROM " + TABLE_NAME+" WHERE "+COLUMN_NAME_IS_COMPLETE+"= 1";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
-        int cnt = cursor.getCount();
-        cursor.close();
-        return cnt;
+        int count=0;
+        try{
+             count = cursor.getCount();
+
+
+        }finally {
+            cursor.close();
+            return count;
+
+        }
+
     }
 }

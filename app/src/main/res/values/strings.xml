@@ -12,7 +12,7 @@
     <string name="label_progress">Progress</string>
     <string name="text_place_holder_title">Title</string>
     <string name="text_placeholder_description">Description</string>
-    <string name="place_holder_progress_value">50%</string>
+    <string name="place_holder_progress_value">0%</string>
     <string name="text_done">Done</string>
     <string name="text_todo_title">TODO</string>
     <string name="hint_add_a_new_item_title">Add a new item</string>
