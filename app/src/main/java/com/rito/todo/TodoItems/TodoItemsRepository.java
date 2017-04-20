@@ -29,7 +29,7 @@ public interface TodoItemsRepository {
 
 
     void loadTodoItems(LoadTodoItemsCallback callback);
-    void createTodoItem(CreateTodoItemCallback callback);
+    void createTodoItem(TodoItem item,CreateTodoItemCallback callback);
     void deleteTodoItem(long itemId, DeleteTodoItemCallback callback);
     void completeTodoItem(long itemId, CompleteTodoItemCallback callback);
 }

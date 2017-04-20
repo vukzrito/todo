@@ -1,10 +1,13 @@
 package com.rito.todo.data;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
+import com.rito.todo.model.TodoItem;
 
 import static com.rito.todo.data.TodoContract.TodoEntry;
 import static com.rito.todo.data.TodoContract.TodoEntry.COLUMN_NAME_IS_COMPLETE;
@@ -14,7 +17,7 @@ import static com.rito.todo.data.TodoContract.TodoEntry.TABLE_NAME;
  * Created by RVukela on 2016/10/26.
  */
 
-public class TodoDbHelper extends SQLiteOpenHelper {
+public class TodoSQLiteDbHelper extends SQLiteOpenHelper {
     public static final String TEXT_TYPE= " TEXT";
     public static final String INT_TYPE= " INTEGER";
     public  static final String COMMA_SEP= ",";
@@ -32,7 +35,7 @@ public class TodoDbHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "todo.db";
 
 
-    public TodoDbHelper(Context context) {
+    public TodoSQLiteDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -70,5 +73,32 @@ public class TodoDbHelper extends SQLiteOpenHelper {
 
         }
 
+    }
+
+    public TodoItem insertTodoItem(TodoItem item){
+        SQLiteDatabase db = getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(TodoContract.TodoEntry.COLUMN_NAME_TITLE, item.getTitle());
+        values.put(TodoContract.TodoEntry.COLUMN_NAME_DESCRIPTION, item.getDescription());
+        values.put(TodoContract.TodoEntry.COLUMN_NAME_IS_COMPLETE, item.isComplete());
+
+        long newRowId = db.insert(TodoContract.TodoEntry.TABLE_NAME, null, values);
+        item.setId(newRowId);
+        return  item;
+    }
+
+    public TodoItem updateCompletionStatus(long itemId, int status){
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues args = new ContentValues();
+        args.put( TodoContract.TodoEntry.COLUMN_NAME_IS_COMPLETE, status);
+        db.update(TodoContract.TodoEntry.TABLE_NAME, args, TodoContract.TodoEntry._ID + "=" + itemId, null);
+
+        db.close();
+        return null;
+    }
+
+    public TodoItem getTodoItem(long itemId){
+        return null;
     }
 }

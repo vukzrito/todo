@@ -10,6 +10,9 @@ public class TodoItem {
     public String description;
     public int isComplete;
 
+    public static final int ITEM_COMPLETED = 1;
+    public static final int ITEM_INCOMPLETE = 0;
+
     public TodoItem() {
 
     }

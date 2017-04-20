@@ -1,6 +1,5 @@
 package com.rito.todo;
 
-import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.DataSetObserver;
 import android.database.sqlite.SQLiteDatabase;
@@ -25,9 +24,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.rito.todo.TodoItems.TodoItemsContract;
 import com.rito.todo.adapter.TodoItemsListAdapter;
 import com.rito.todo.data.TodoContract;
-import com.rito.todo.data.TodoDbHelper;
+import com.rito.todo.data.TodoSQLiteDbHelper;
 import com.rito.todo.model.TodoItem;
 
 import java.util.ArrayList;
@@ -38,12 +38,13 @@ public class MainActivity extends AppCompatActivity
     ListView todoListView;
     TodoItemsListAdapter adapter;
     ArrayList todoItems;
-    TodoDbHelper dbHelper;
+    TodoSQLiteDbHelper dbHelper;
     Button btnAddNewItem;
     EditText inputNewItemTitle;
     TextView textViewProgressval;
     EditText inputNewItemDesc;
     ProgressBar progressBar;
+    private TodoItemsContract.UserActionsListener userActionsListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +110,7 @@ public class MainActivity extends AppCompatActivity
         todoListView = (ListView) findViewById(R.id.tasks_list);
 
 
-        dbHelper = new TodoDbHelper(this);
+        dbHelper = new TodoSQLiteDbHelper(this);
         todoItems = getTodoItems();
 
         adapter = new TodoItemsListAdapter(this,todoItems);
@@ -171,14 +172,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void insertItem(TodoItem item){
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-
-        ContentValues values = new ContentValues();
-        values.put(TodoContract.TodoEntry.COLUMN_NAME_TITLE, item.getTitle());
-        values.put(TodoContract.TodoEntry.COLUMN_NAME_DESCRIPTION, item.getDescription());
-        values.put(TodoContract.TodoEntry.COLUMN_NAME_IS_COMPLETE, item.isComplete());
-
-        long newRowId = db.insert(TodoContract.TodoEntry.TABLE_NAME, null, values);
+       //TODO Call presenter to insert into DB
+        userActionsListener.addNewItem(item);
     }
 
     private ArrayList<TodoItem> getTodoItems(){
