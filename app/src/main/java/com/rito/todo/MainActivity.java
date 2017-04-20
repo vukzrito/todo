@@ -1,8 +1,5 @@
 package com.rito.todo;
 
-import android.database.Cursor;
-import android.database.DataSetObserver;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,26 +21,28 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.rito.todo.TodoItems.TodoItemsContract;
+import com.rito.todo.TodoItems.TodoItemsPresenter;
+import com.rito.todo.TodoItems.TodoItemsrepositoryImpl;
 import com.rito.todo.adapter.TodoItemsListAdapter;
-import com.rito.todo.data.TodoContract;
+import com.rito.todo.data.TodoDatabaseImpl;
 import com.rito.todo.data.TodoSQLiteDbHelper;
 import com.rito.todo.model.TodoItem;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,TodoItemsContract.View {
 
     ListView todoListView;
     TodoItemsListAdapter adapter;
-    ArrayList todoItems;
-    TodoSQLiteDbHelper dbHelper;
     Button btnAddNewItem;
     EditText inputNewItemTitle;
     TextView textViewProgressval;
     EditText inputNewItemDesc;
     ProgressBar progressBar;
     private TodoItemsContract.UserActionsListener userActionsListener;
+    private TodoItemCheckedListener todoItemCheckedListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,8 +96,7 @@ public class MainActivity extends AppCompatActivity
                 }
                 String desc=inputNewItemDesc.getText().toString();
                 TodoItem todoItem= new TodoItem(title,desc,0 );
-                insertItem(todoItem);
-                todoItems.add(todoItem);
+                userActionsListener.addNewItem(todoItem);
                 adapter.notifyDataSetChanged();
 
                 Toast.makeText(getApplicationContext(), "New todo item added", Toast.LENGTH_SHORT).show();
@@ -110,21 +107,21 @@ public class MainActivity extends AppCompatActivity
         todoListView = (ListView) findViewById(R.id.tasks_list);
 
 
-        dbHelper = new TodoSQLiteDbHelper(this);
-        todoItems = getTodoItems();
-
-        adapter = new TodoItemsListAdapter(this,todoItems);
-        adapter.registerDataSetObserver(new DataSetObserver() {
+        adapter = new TodoItemsListAdapter(this,new ArrayList<TodoItem>(1));
+        todoListView.setAdapter(adapter);
+       userActionsListener = new TodoItemsPresenter(this, new TodoItemsrepositoryImpl(
+               new TodoDatabaseImpl(new TodoSQLiteDbHelper(this))));
+        todoItemCheckedListener = new TodoItemCheckedListener() {
             @Override
-            public void onInvalidated() {
-                super.onInvalidated();
-            //  calculateProgress();
+            public void onItemChecked(TodoItem item) {
+                userActionsListener.markItemComplete(item.getId());
             }
 
-
-        });
-        todoListView.setAdapter(adapter);
-       // calculateProgress();
+            @Override
+            public void onItemUnChecked(TodoItem item) {
+                userActionsListener.markItemIncomplete(item.getId());
+            }
+        };
 
     }
 
@@ -153,8 +150,6 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
 
-
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -164,64 +159,24 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
-    private void insertItem(TodoItem item){
-       //TODO Call presenter to insert into DB
-        userActionsListener.addNewItem(item);
-    }
-
     private ArrayList<TodoItem> getTodoItems(){
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-
-        String[] projection = {TodoContract.TodoEntry._ID,
-                TodoContract.TodoEntry.COLUMN_NAME_TITLE,
-                TodoContract.TodoEntry.COLUMN_NAME_DESCRIPTION,
-                TodoContract.TodoEntry.COLUMN_NAME_IS_COMPLETE,
-
-        };
-
-
-        String sortOrder =
-                TodoContract.TodoEntry.COLUMN_NAME_DESCRIPTION + " DESC";
-
-        Cursor resultsCursor = db.query(
-                TodoContract.TodoEntry.TABLE_NAME,
-                projection,
-                null,
-                null,
-                null,
-                null,
-                sortOrder
-        );
-        ArrayList<TodoItem> itemsList= new ArrayList<>();
-        itemsList.add(new TodoItem());
-        try {
-            while (resultsCursor.moveToNext()) {
-                long itemId = resultsCursor.getLong(resultsCursor.getColumnIndexOrThrow(TodoContract.TodoEntry._ID));
-                String itemTitle =resultsCursor.getString(resultsCursor.getColumnIndexOrThrow(TodoContract.TodoEntry.COLUMN_NAME_TITLE));
-                String itemDescription =resultsCursor.getString(resultsCursor.getColumnIndexOrThrow(TodoContract.TodoEntry.COLUMN_NAME_DESCRIPTION));
-                int isComplete = resultsCursor.getInt(resultsCursor.getColumnIndex(TodoContract.TodoEntry.COLUMN_NAME_IS_COMPLETE));
-                TodoItem item = new TodoItem(itemId,itemTitle,itemDescription,isComplete);
-                Log.v("Item", item.toString());
-                itemsList.add(item);
-            }
-        } finally {
-            resultsCursor.close();
-        }
-
-
-        return itemsList;
+        //TODO all Retrieve todo  items
+        return null;
     }
 
-    private void refreshAdapter(){
-        adapter.clear();
-        adapter.addAll(getTodoItems());
-        adapter.notifyDataSetChanged();
+
+    @Override
+    public void showTodoItems(List<TodoItem> todoItemList) {
+        adapter.updateData(todoItemList);
+    }
+
+    interface TodoItemCheckedListener{
+        void onItemChecked(TodoItem item);
+        void onItemUnChecked(TodoItem item);
     }
 }

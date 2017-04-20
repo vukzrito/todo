@@ -9,6 +9,9 @@ import android.util.Log;
 
 import com.rito.todo.model.TodoItem;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.rito.todo.data.TodoContract.TodoEntry;
 import static com.rito.todo.data.TodoContract.TodoEntry.COLUMN_NAME_IS_COMPLETE;
 import static com.rito.todo.data.TodoContract.TodoEntry.TABLE_NAME;
@@ -100,5 +103,46 @@ public class TodoSQLiteDbHelper extends SQLiteOpenHelper {
 
     public TodoItem getTodoItem(long itemId){
         return null;
+    }
+
+    public List<TodoItem>  getAllTodoItems(){
+       List<TodoItem> todoItems;
+
+        SQLiteDatabase db = getReadableDatabase();
+
+        String[] projection = {TodoContract.TodoEntry._ID,
+                TodoContract.TodoEntry.COLUMN_NAME_TITLE,
+                TodoContract.TodoEntry.COLUMN_NAME_DESCRIPTION,
+                TodoContract.TodoEntry.COLUMN_NAME_IS_COMPLETE,
+
+        };
+
+
+        String sortOrder = TodoContract.TodoEntry.COLUMN_NAME_DESCRIPTION + " DESC";
+
+        Cursor resultsCursor = db.query(TodoContract.TodoEntry.TABLE_NAME,projection,
+                                 null,null,null,null,sortOrder);
+        todoItems = toTodoItemsList(resultsCursor);
+        return todoItems;
+    }
+
+    private List<TodoItem> toTodoItemsList(Cursor resultsCursor){
+        List todoItems = new ArrayList();
+        todoItems.add(new TodoItem());
+        try {
+            while (resultsCursor.moveToNext()) {
+                long itemId = resultsCursor.getLong(resultsCursor.getColumnIndexOrThrow(TodoContract.TodoEntry._ID));
+                String itemTitle =resultsCursor.getString(resultsCursor.getColumnIndexOrThrow(TodoContract.TodoEntry.COLUMN_NAME_TITLE));
+                String itemDescription =resultsCursor.getString(resultsCursor.getColumnIndexOrThrow(TodoContract.TodoEntry.COLUMN_NAME_DESCRIPTION));
+                int isComplete = resultsCursor.getInt(resultsCursor.getColumnIndex(TodoContract.TodoEntry.COLUMN_NAME_IS_COMPLETE));
+                TodoItem item = new TodoItem(itemId,itemTitle,itemDescription,isComplete);
+                Log.v("Item", item.toString());
+                todoItems.add(item);
+            }
+        } finally {
+            resultsCursor.close();
+        }
+
+        return  todoItems;
     }
 }

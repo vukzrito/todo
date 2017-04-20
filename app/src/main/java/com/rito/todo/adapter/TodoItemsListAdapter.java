@@ -122,6 +122,12 @@ public class TodoItemsListAdapter extends ArrayAdapter<TodoItem> {
 
     }
 
+    public void updateData(List<TodoItem> todoItems){
+        this.todoItems = todoItems;
+        notifyDataSetChanged();
+        calculateProgress();
+    }
+
 
 }
 
