@@ -54,7 +54,7 @@ public class TodoItemsListAdapter extends ArrayAdapter<TodoItem> {
         if(position==0){
             return  null;
         }
-        return todoItems.get(position-1);
+        return todoItems.get(position);
     }
 
     @Override
@@ -100,6 +100,7 @@ public class TodoItemsListAdapter extends ArrayAdapter<TodoItem> {
                     ContentValues args = new ContentValues();
                     args.put( TodoContract.TodoEntry.COLUMN_NAME_IS_COMPLETE, isComplete);
                     db.update(TodoContract.TodoEntry.TABLE_NAME, args, TodoContract.TodoEntry._ID + "=" + itemId, null);
+
                     db.close();
 
                     calculateProgress();
