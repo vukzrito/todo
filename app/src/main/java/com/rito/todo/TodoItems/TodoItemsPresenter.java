@@ -22,14 +22,19 @@ public class TodoItemsPresenter implements TodoItemsContract.UserActionsListener
         repository.completeTodoItem(itemId, new TodoItemsRepository.CompleteTodoItemCallback() {
             @Override
             public void onTodoItemCompleted(TodoItem item) {
-
+                loadTodoItems();
             }
         });
     }
 
     @Override
     public void markItemIncomplete(long itemId) {
-
+        repository.revertTodoItem(itemId, new TodoItemsRepository.RevertTodoItemCallback() {
+            @Override
+            public void onTodoItemReverted(TodoItem item) {
+                loadTodoItems();
+            }
+        });
     }
 
     @Override
@@ -37,7 +42,7 @@ public class TodoItemsPresenter implements TodoItemsContract.UserActionsListener
         repository.createTodoItem(item, new TodoItemsRepository.CreateTodoItemCallback() {
             @Override
             public void onTodoItemCreated(TodoItem item) {
-
+                loadTodoItems();
             }
         });
     }
@@ -57,7 +62,7 @@ public class TodoItemsPresenter implements TodoItemsContract.UserActionsListener
         repository.deleteTodoItem(itemId, new TodoItemsRepository.DeleteTodoItemCallback() {
             @Override
             public void onTodoItemDeleted(TodoItem item) {
-
+                loadTodoItems();
             }
         });
     }

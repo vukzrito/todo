@@ -32,7 +32,7 @@ public class TodoDatabaseImpl implements TodoDatabase {
 
     @Override
     public void completeItem(long itemId, ModifyItemStatusCallback callback) {
-        callback.onItemReverted(dbHelper.updateCompletionStatus(itemId,TodoItem.ITEM_COMPLETED ));
+        callback.onItemCompleted(dbHelper.updateCompletionStatus(itemId,TodoItem.ITEM_COMPLETED ));
     }
 
     @Override

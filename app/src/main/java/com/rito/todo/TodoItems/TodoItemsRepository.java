@@ -27,9 +27,13 @@ public interface TodoItemsRepository {
         void onTodoItemCompleted(TodoItem item);
     }
 
+    interface  RevertTodoItemCallback{
+        void onTodoItemReverted(TodoItem item);
+    }
 
     void loadTodoItems(LoadTodoItemsCallback callback);
     void createTodoItem(TodoItem item,CreateTodoItemCallback callback);
     void deleteTodoItem(long itemId, DeleteTodoItemCallback callback);
     void completeTodoItem(long itemId, CompleteTodoItemCallback callback);
+    void revertTodoItem(long itemId, RevertTodoItemCallback callback);
 }

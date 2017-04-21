@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import com.rito.todo.MainActivity;
 import com.rito.todo.R;
-import com.rito.todo.data.TodoSQLiteDbHelper;
 import com.rito.todo.model.TodoItem;
 
 import java.util.List;
@@ -29,7 +28,6 @@ public class TodoItemsListAdapter extends ArrayAdapter<TodoItem> {
     private  MainActivity.TodoItemCheckedListener todoItemCheckedListener;
     List<TodoItem> todoItems;
     Context context;
-    int nCompletedItems;
     private ProgressBar progressBar;
     private TextView textViewProgressval;
 
@@ -42,8 +40,6 @@ public class TodoItemsListAdapter extends ArrayAdapter<TodoItem> {
     public TodoItemsListAdapter(Context context, List<TodoItem> items,
                                 MainActivity.TodoItemCheckedListener todoItemCheckedListener) {
         super(context, R.layout.item_row);
-        nCompletedItems=0;
-        nCompletedItems = new TodoSQLiteDbHelper(context).getCompletedCount();
         this.context = context;
         this.todoItems = items;
         this.todoItemCheckedListener = todoItemCheckedListener;
@@ -93,10 +89,9 @@ public class TodoItemsListAdapter extends ArrayAdapter<TodoItem> {
                     //TODO call db modify method
                     if(isChecked){
 
-                        nCompletedItems=nCompletedItems+1;
                         todoItemCheckedListener.onItemChecked(todoItem);
                     }else{
-                        nCompletedItems=nCompletedItems-1;
+
                         todoItemCheckedListener.onItemUnChecked(todoItem);
                     }
 
@@ -122,13 +117,23 @@ public class TodoItemsListAdapter extends ArrayAdapter<TodoItem> {
     public void calculateProgress(){
 
         int nItems = todoItems.size()-1;
-        double percentage = (double)nCompletedItems/ (double)nItems *100;
+        double percentage = (double)calcCompletedItems()/ (double)nItems *100;
         if(textViewProgressval!=null){
             textViewProgressval.setText((int)percentage + " %");
             progressBar.setProgress((int)percentage);
         }
 
 
+    }
+
+    private int calcCompletedItems(){
+        int nCompleted = 0;
+        for(int i=1; i<todoItems.size(); i++){
+            if(todoItems.get(i).isComplete() == TodoItem.ITEM_COMPLETED)
+                nCompleted+=1;
+        }
+
+        return nCompleted;
     }
 
     public void updateData(List<TodoItem> todoItems){

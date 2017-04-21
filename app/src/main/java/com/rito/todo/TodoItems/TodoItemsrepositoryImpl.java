@@ -69,4 +69,24 @@ public class TodoItemsrepositoryImpl implements TodoItemsRepository {
             }
         });
     }
+
+    @Override
+    public void revertTodoItem(long itemId, final RevertTodoItemCallback callback) {
+        database.revertItem(itemId, new TodoDatabase.ModifyItemStatusCallback() {
+            @Override
+            public void onItemCompleted(TodoItem item) {
+
+            }
+
+            @Override
+            public void onItemReverted(TodoItem item) {
+                callback.onTodoItemReverted(item);
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+                
+            }
+        });
+    }
 }
