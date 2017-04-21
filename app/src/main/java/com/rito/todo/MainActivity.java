@@ -2,6 +2,7 @@ package com.rito.todo;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -126,6 +127,12 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        userActionsListener.loadTodoItems();
+    }
+
+    @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -164,15 +171,29 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    private ArrayList<TodoItem> getTodoItems(){
-        //TODO all Retrieve todo  items
-        return null;
-    }
 
 
     @Override
     public void showTodoItems(List<TodoItem> todoItemList) {
         adapter.updateData(todoItemList);
+    }
+
+    @Override
+    public void notifyTodoItemAdded() {
+        Snackbar.make(this.todoListView.getRootView(), "New todo item added ",
+                Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void notifyTodoItemDeleted() {
+        Snackbar.make(this.todoListView.getRootView(), "Todo Item deleted ",
+                Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void notifyTodoItemUpdated() {
+        Snackbar.make(this.todoListView.getRootView(), "Todo Item updated ",
+                Snackbar.LENGTH_LONG).show();
     }
 
     interface TodoItemCheckedListener{

@@ -3,6 +3,8 @@ package com.rito.todo.TodoItems;
 import com.rito.todo.data.TodoDatabase;
 import com.rito.todo.model.TodoItem;
 
+import java.util.List;
+
 /**
  * Created by RVukela on 2017/04/19.
  */
@@ -15,7 +17,17 @@ public class TodoItemsrepositoryImpl implements TodoItemsRepository {
 
     @Override
     public void loadTodoItems(final LoadTodoItemsCallback callback) {
+        database.retrieveAllItems(new TodoDatabase.RetrieveItemsCallback() {
+            @Override
+            public void onItemsRetrieved(List<TodoItem> todoItems) {
+                callback.onTodoItemsLoaded(todoItems);
+            }
 
+            @Override
+            public void onError(String errorMessage) {
+                //TODO Implement error handling
+            }
+        });
     }
 
     @Override
@@ -28,7 +40,7 @@ public class TodoItemsrepositoryImpl implements TodoItemsRepository {
 
             @Override
             public void onError(String errorMessage) {
-
+                //TODO Implement error handling
             }
         });
     }

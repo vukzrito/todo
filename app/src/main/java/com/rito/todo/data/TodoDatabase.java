@@ -26,6 +26,7 @@ public interface TodoDatabase {
     }
 
     void retrieveCompletedItems(RetrieveItemsCallback callback);
+    void retrieveAllItems(RetrieveItemsCallback callback);
     void addItem(TodoItem item, AddItemToDbCallback callback);
     void completeItem(long itemId, ModifyItemStatusCallback callback);
     void revertItem(long itemId, ModifyItemStatusCallback callback);

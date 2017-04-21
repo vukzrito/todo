@@ -20,6 +20,11 @@ public class TodoDatabaseImpl implements TodoDatabase {
     }
 
     @Override
+    public void retrieveAllItems(RetrieveItemsCallback callback) {
+       callback.onItemsRetrieved( dbHelper.getAllTodoItems());
+    }
+
+    @Override
     public void addItem(TodoItem item, AddItemToDbCallback callback) {
 
         callback.onItemAddedToDb(dbHelper.insertTodoItem(item));

@@ -123,6 +123,7 @@ public class TodoSQLiteDbHelper extends SQLiteOpenHelper {
         Cursor resultsCursor = db.query(TodoContract.TodoEntry.TABLE_NAME,projection,
                                  null,null,null,null,sortOrder);
         todoItems = toTodoItemsList(resultsCursor);
+        resultsCursor.close();
         return todoItems;
     }
 

@@ -117,8 +117,11 @@ public class TodoItemsListAdapter extends ArrayAdapter<TodoItem> {
 
         int nItems = todoItems.size()-1;
         double percentage = (double)nCompletedItems/ (double)nItems *100;
-        textViewProgressval.setText((int)percentage + " %");
-        progressBar.setProgress((int)percentage);
+        if(textViewProgressval!=null){
+            textViewProgressval.setText((int)percentage + " %");
+            progressBar.setProgress((int)percentage);
+        }
+
 
     }
 
