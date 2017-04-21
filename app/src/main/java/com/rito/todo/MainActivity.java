@@ -105,13 +105,6 @@ public class MainActivity extends AppCompatActivity
                 inputNewItemDesc.setText("");
             }
         });
-        todoListView = (ListView) findViewById(R.id.tasks_list);
-
-
-        adapter = new TodoItemsListAdapter(this,new ArrayList<TodoItem>(1));
-        todoListView.setAdapter(adapter);
-       userActionsListener = new TodoItemsPresenter(this, new TodoItemsrepositoryImpl(
-               new TodoDatabaseImpl(new TodoSQLiteDbHelper(this))));
         todoItemCheckedListener = new TodoItemCheckedListener() {
             @Override
             public void onItemChecked(TodoItem item) {
@@ -123,6 +116,12 @@ public class MainActivity extends AppCompatActivity
                 userActionsListener.markItemIncomplete(item.getId());
             }
         };
+        todoListView = (ListView) findViewById(R.id.tasks_list);
+        adapter = new TodoItemsListAdapter(this,new ArrayList<TodoItem>(1), todoItemCheckedListener);
+        todoListView.setAdapter(adapter);
+       userActionsListener = new TodoItemsPresenter(this, new TodoItemsrepositoryImpl(
+               new TodoDatabaseImpl(new TodoSQLiteDbHelper(this))));
+
 
     }
 
@@ -196,7 +195,7 @@ public class MainActivity extends AppCompatActivity
                 Snackbar.LENGTH_LONG).show();
     }
 
-    interface TodoItemCheckedListener{
+    public interface TodoItemCheckedListener{
         void onItemChecked(TodoItem item);
         void onItemUnChecked(TodoItem item);
     }

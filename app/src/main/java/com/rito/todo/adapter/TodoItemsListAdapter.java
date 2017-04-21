@@ -13,6 +13,7 @@ import android.widget.CompoundButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.rito.todo.MainActivity;
 import com.rito.todo.R;
 import com.rito.todo.data.TodoSQLiteDbHelper;
 import com.rito.todo.model.TodoItem;
@@ -25,6 +26,7 @@ import java.util.List;
 
 public class TodoItemsListAdapter extends ArrayAdapter<TodoItem> {
 
+    private  MainActivity.TodoItemCheckedListener todoItemCheckedListener;
     List<TodoItem> todoItems;
     Context context;
     int nCompletedItems;
@@ -37,12 +39,14 @@ public class TodoItemsListAdapter extends ArrayAdapter<TodoItem> {
         return todoItems.size();
     }
 
-    public TodoItemsListAdapter(Context context, List<TodoItem> items) {
+    public TodoItemsListAdapter(Context context, List<TodoItem> items,
+                                MainActivity.TodoItemCheckedListener todoItemCheckedListener) {
         super(context, R.layout.item_row);
         nCompletedItems=0;
         nCompletedItems = new TodoSQLiteDbHelper(context).getCompletedCount();
         this.context = context;
         this.todoItems = items;
+        this.todoItemCheckedListener = todoItemCheckedListener;
     }
 
     @Nullable
@@ -83,17 +87,19 @@ public class TodoItemsListAdapter extends ArrayAdapter<TodoItem> {
             itemCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                    int isComplete=0;
+
+
+                    TodoItem todoItem = getItem(position);
+                    //TODO call db modify method
                     if(isChecked){
-                        isComplete=1;
+
                         nCompletedItems=nCompletedItems+1;
+                        todoItemCheckedListener.onItemChecked(todoItem);
                     }else{
                         nCompletedItems=nCompletedItems-1;
+                        todoItemCheckedListener.onItemUnChecked(todoItem);
                     }
 
-
-                    long itemId = getItem(position).getId();
-                        //TODO call db modify method
 
                     calculateProgress();
 
