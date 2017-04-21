@@ -1,4 +1,4 @@
-package com.rito.todo;
+package com.rito.todo.todoItems;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -22,18 +22,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.rito.todo.TodoItems.TodoItemsContract;
-import com.rito.todo.TodoItems.TodoItemsPresenter;
-import com.rito.todo.TodoItems.TodoItemsrepositoryImpl;
-import com.rito.todo.adapter.TodoItemsListAdapter;
+import com.rito.todo.R;
 import com.rito.todo.data.TodoDatabaseImpl;
+import com.rito.todo.data.TodoItem;
 import com.rito.todo.data.TodoSQLiteDbHelper;
-import com.rito.todo.model.TodoItem;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity
+public class TodoItemsActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,TodoItemsContract.View {
 
     ListView todoListView;

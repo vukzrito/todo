@@ -1,7 +1,5 @@
 package com.rito.todo.data;
 
-import com.rito.todo.model.TodoItem;
-
 /**
  * Created by RVukela on 2017/04/20.
  */

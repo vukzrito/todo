@@ -1,7 +1,5 @@
 package com.rito.todo.data;
 
-import com.rito.todo.model.TodoItem;
-
 import java.util.List;
 
 /**

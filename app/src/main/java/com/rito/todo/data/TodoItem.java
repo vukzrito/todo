@@ -1,4 +1,4 @@
-package com.rito.todo.model;
+package com.rito.todo.data;
 
 /**
  * Created by RVukela on 2016/10/25.
