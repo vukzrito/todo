@@ -1,6 +1,7 @@
 package com.rito.todo;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
@@ -56,7 +57,7 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -100,7 +101,7 @@ public class MainActivity extends AppCompatActivity
                 userActionsListener.addNewItem(todoItem);
                 adapter.notifyDataSetChanged();
 
-                Toast.makeText(getApplicationContext(), "New todo item added", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), R.string.message_new_item_added, Toast.LENGTH_SHORT).show();
                 inputNewItemTitle.setText("");
                 inputNewItemDesc.setText("");
             }
@@ -153,15 +154,13 @@ public class MainActivity extends AppCompatActivity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
 
         return super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
@@ -185,13 +184,13 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void notifyTodoItemDeleted() {
-        Snackbar.make(this.todoListView.getRootView(), "Todo Item deleted ",
+        Snackbar.make(this.todoListView.getRootView(), R.string.message_item_deleted,
                 Snackbar.LENGTH_LONG).show();
     }
 
     @Override
     public void notifyTodoItemUpdated() {
-        Snackbar.make(this.todoListView.getRootView(), "Todo Item updated ",
+        Snackbar.make(this.todoListView.getRootView(), R.string.message_item_updated,
                 Snackbar.LENGTH_LONG).show();
     }
 
