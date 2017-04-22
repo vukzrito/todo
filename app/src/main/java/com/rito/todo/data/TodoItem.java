@@ -1,8 +1,5 @@
 package com.rito.todo.data;
 
-/**
- * Created by RVukela on 2016/10/25.
- */
 
 public class TodoItem {
     public long id;

@@ -15,9 +15,7 @@ import java.util.List;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 
-/**
- * Created by RVukela on 2017/04/21.
- */
+
 public class TodoItemsPresenterTest {
 
     private static final List<TodoItem> TODO_ITEMS = new ArrayList<>(1);

@@ -14,9 +14,7 @@ import static com.rito.todo.data.TodoContract.TodoEntry;
 import static com.rito.todo.data.TodoContract.TodoEntry.COLUMN_NAME_IS_COMPLETE;
 import static com.rito.todo.data.TodoContract.TodoEntry.TABLE_NAME;
 
-/**
- * Created by RVukela on 2016/10/26.
- */
+
 
 public class TodoSQLiteDbHelper extends SQLiteOpenHelper {
     public static final String TEXT_TYPE= " TEXT";

@@ -2,9 +2,7 @@ package com.rito.todo.data;
 
 import android.provider.BaseColumns;
 
-/**
- * Created by RVukela on 2016/10/26.
- */
+
 
 public final class TodoContract {
     private TodoContract(){

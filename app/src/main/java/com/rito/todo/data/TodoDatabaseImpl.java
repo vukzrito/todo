@@ -1,8 +1,6 @@
 package com.rito.todo.data;
 
-/**
- * Created by RVukela on 2017/04/20.
- */
+
 
 public class TodoDatabaseImpl implements TodoDatabase {
     private TodoSQLiteDbHelper dbHelper;

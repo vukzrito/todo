@@ -2,9 +2,7 @@ package com.rito.todo.data;
 
 import java.util.List;
 
-/**
- * Created by RVukela on 2017/04/20.
- */
+
 
 public interface TodoDatabase {
     interface AddItemToDbCallback{
