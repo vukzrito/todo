@@ -1,13 +1,11 @@
 package com.rito.todo.todoItems;
 
-import android.app.Activity;
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ProgressBar;
@@ -18,37 +16,72 @@ import com.rito.todo.data.TodoItem;
 
 import java.util.List;
 
+import static com.rito.todo.todoItems.TodoItemsActivity.TodoItemCheckedListener;
 
 
-public class TodoItemsListAdapter extends ArrayAdapter<TodoItem> {
+public class TodoItemsListAdapter extends RecyclerView.Adapter<TodoItemsListAdapter.ViewHolder> {
 
-    private  TodoItemsActivity.TodoItemCheckedListener todoItemCheckedListener;
-    List<TodoItem> todoItems;
-    Context context;
+    private  TodoItemCheckedListener todoItemCheckedListener;
+    private List<TodoItem> todoItems;
+    //Context context;
     private ProgressBar progressBar;
     private TextView textViewProgressval;
 
 
-    @Override
-    public int getCount() {
-        return todoItems.size();
-    }
 
-    public TodoItemsListAdapter(Context context, List<TodoItem> items,
-                                TodoItemsActivity.TodoItemCheckedListener todoItemCheckedListener) {
-        super(context, R.layout.item_row);
-        this.context = context;
+
+    public TodoItemsListAdapter( List<TodoItem> items, TodoItemCheckedListener
+            todoItemCheckedListener) {
+
         this.todoItems = items;
         this.todoItemCheckedListener = todoItemCheckedListener;
     }
 
     @Nullable
-    @Override
+    /**@Override **/
     public TodoItem getItem(int position) {
-        if(position==0){
+       /* if(position==0){
             return  null;
-        }
+        }*/
         return todoItems.get(position);
+    }
+
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        Context context = parent.getContext();
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View itemView = inflater.inflate(R.layout.item_row, parent, false);
+
+        return new ViewHolder(itemView);
+    }
+
+    @Override
+    public void onBindViewHolder(final ViewHolder holder, int position) {
+
+        TodoItem item = todoItems.get(position);
+        holder.titleTextView.setText(item.getTitle());
+        holder.descTextView.setText(item.getDescription());
+        if(item.isComplete()==TodoItem.ITEM_COMPLETED)
+            holder.itemCheckBox.setChecked(true);
+
+        holder.itemCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+
+                TodoItem todoItem = getItem(holder.getAdapterPosition());
+                if(isChecked){
+
+                    todoItemCheckedListener.onItemChecked(todoItem);
+                }else{
+
+                    todoItemCheckedListener.onItemUnChecked(todoItem);
+                }
+
+
+                //calculateProgress();
+
+            }
+        });
     }
 
     @Override
@@ -56,59 +89,13 @@ public class TodoItemsListAdapter extends ArrayAdapter<TodoItem> {
         return position;
     }
 
-
-
-    @NonNull
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = ((Activity)context).getLayoutInflater();
-        if(position==0){
-           if(convertView==null){
-               convertView = inflater.inflate(R.layout.todo_progress_layout,parent,false);
-
-               textViewProgressval = (TextView) convertView.findViewById(R.id.todo_items_progress_value);
-               progressBar = (ProgressBar) convertView.findViewById(R.id.progress_bar);
-           }
-
-        }else{
-            convertView = inflater.inflate(R.layout.item_row,parent,false);
-            convertView.setOnClickListener(null);
-
-            TextView titleTextView = (TextView) convertView.findViewById(R.id.todo_item_title);
-            TextView descTextView = (TextView) convertView.findViewById(R.id.todo_item_description);
-            CheckBox itemCheckBox = (CheckBox) convertView.findViewById(R.id.todo_item_check_box);
-            itemCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-
-
-                    TodoItem todoItem = getItem(position);
-                    if(isChecked){
-
-                        todoItemCheckedListener.onItemChecked(todoItem);
-                    }else{
-
-                        todoItemCheckedListener.onItemUnChecked(todoItem);
-                    }
-
-
-                    calculateProgress();
-
-                }
-            });
-
-
-            titleTextView.setText(todoItems.get(position).getTitle());
-            descTextView.setText(todoItems.get(position).getDescription());
-            if(todoItems.get(position).isComplete()==1){
-                itemCheckBox.setChecked(true);
-            }else{
-                itemCheckBox.setChecked(false);
-            }
-        }
-
-        return convertView;
+    public int getItemCount() {
+        return todoItems.size();
     }
+
+
+
 
     public void calculateProgress(){
 
@@ -135,10 +122,24 @@ public class TodoItemsListAdapter extends ArrayAdapter<TodoItem> {
     public void updateData(List<TodoItem> todoItems){
         this.todoItems = todoItems;
         notifyDataSetChanged();
-        calculateProgress();
+        //calculateProgress();
     }
 
 
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        TextView titleTextView ;
+        TextView descTextView;
+        CheckBox itemCheckBox ;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            titleTextView = (TextView) itemView.findViewById(R.id.todo_item_title);
+            descTextView = (TextView) itemView.findViewById(R.id.todo_item_description);
+            itemCheckBox = (CheckBox) itemView.findViewById(R.id.todo_item_check_box);
+
+
+        }
+    }
 }
 
 

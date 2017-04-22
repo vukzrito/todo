@@ -8,6 +8,8 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -17,7 +19,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,11 +34,11 @@ import java.util.List;
 public class TodoItemsActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,TodoItemsContract.View {
 
-    ListView todoListView;
+    RecyclerView todoRecyclerView;
     TodoItemsListAdapter adapter;
     Button btnAddNewItem;
     EditText inputNewItemTitle;
-    TextView textViewProgressval;
+    TextView textViewProgressVal;
     EditText inputNewItemDesc;
     ProgressBar progressBar;
     private TodoItemsContract.UserActionsListener userActionsListener;
@@ -61,7 +62,7 @@ public class TodoItemsActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
 
-        textViewProgressval = (TextView) findViewById(R.id.todo_items_progress_value);
+        textViewProgressVal = (TextView) findViewById(R.id.todo_items_progress_value);
         progressBar = (ProgressBar) findViewById(R.id.progress_bar);
         inputNewItemTitle = (EditText) findViewById(R.id.text_input_new_item_title);
         inputNewItemTitle.addTextChangedListener(new TextWatcher() {
@@ -114,9 +115,10 @@ public class TodoItemsActivity extends AppCompatActivity
                 userActionsListener.markItemIncomplete(item.getId());
             }
         };
-        todoListView = (ListView) findViewById(R.id.tasks_list);
-        adapter = new TodoItemsListAdapter(this,new ArrayList<TodoItem>(1), todoItemCheckedListener);
-        todoListView.setAdapter(adapter);
+        todoRecyclerView = (RecyclerView) findViewById(R.id.tasks_list);
+        adapter = new TodoItemsListAdapter(new ArrayList<TodoItem>(1), todoItemCheckedListener);
+        todoRecyclerView.setAdapter(adapter);
+        todoRecyclerView.setLayoutManager(new LinearLayoutManager(this));
        userActionsListener = new TodoItemsPresenter(this, new TodoItemsRepositoryImpl(
                new TodoDatabaseImpl(new TodoSQLiteDbHelper(this))));
 
@@ -175,19 +177,19 @@ public class TodoItemsActivity extends AppCompatActivity
 
     @Override
     public void notifyTodoItemAdded() {
-        Snackbar.make(this.todoListView.getRootView(), "New todo item added ",
+        Snackbar.make(this.todoRecyclerView.getRootView(), "New todo item added ",
                 Snackbar.LENGTH_LONG).show();
     }
 
     @Override
     public void notifyTodoItemDeleted() {
-        Snackbar.make(this.todoListView.getRootView(), R.string.message_item_deleted,
+        Snackbar.make(this.todoRecyclerView.getRootView(), R.string.message_item_deleted,
                 Snackbar.LENGTH_LONG).show();
     }
 
     @Override
     public void notifyTodoItemUpdated() {
-        Snackbar.make(this.todoListView.getRootView(), R.string.message_item_updated,
+        Snackbar.make(this.todoRecyclerView.getRootView(), R.string.message_item_updated,
                 Snackbar.LENGTH_LONG).show();
     }
 
