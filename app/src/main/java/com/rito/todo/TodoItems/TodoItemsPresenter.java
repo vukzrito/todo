@@ -23,6 +23,7 @@ public class TodoItemsPresenter implements TodoItemsContract.UserActionsListener
                 loadTodoItems();
             }
         });
+        view.notifyTodoItemUpdated();
     }
 
     @Override
@@ -33,6 +34,7 @@ public class TodoItemsPresenter implements TodoItemsContract.UserActionsListener
                 loadTodoItems();
             }
         });
+        view.notifyTodoItemUpdated();
     }
 
     @Override
