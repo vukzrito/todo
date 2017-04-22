@@ -117,7 +117,7 @@ public class TodoItemsActivity extends AppCompatActivity
         todoListView = (ListView) findViewById(R.id.tasks_list);
         adapter = new TodoItemsListAdapter(this,new ArrayList<TodoItem>(1), todoItemCheckedListener);
         todoListView.setAdapter(adapter);
-       userActionsListener = new TodoItemsPresenter(this, new TodoItemsrepositoryImpl(
+       userActionsListener = new TodoItemsPresenter(this, new TodoItemsRepositoryImpl(
                new TodoDatabaseImpl(new TodoSQLiteDbHelper(this))));
 
 
