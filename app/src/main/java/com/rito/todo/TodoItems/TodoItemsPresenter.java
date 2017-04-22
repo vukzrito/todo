@@ -1,6 +1,6 @@
-package com.rito.todo.TodoItems;
+package com.rito.todo.todoItems;
 
-import com.rito.todo.model.TodoItem;
+import com.rito.todo.data.TodoItem;
 
 import java.util.List;
 
@@ -43,6 +43,7 @@ public class TodoItemsPresenter implements TodoItemsContract.UserActionsListener
             @Override
             public void onTodoItemCreated(TodoItem item) {
                 loadTodoItems();
+                view.notifyTodoItemAdded();
             }
         });
     }
