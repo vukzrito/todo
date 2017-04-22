@@ -4,9 +4,7 @@ import com.rito.todo.data.TodoItem;
 
 import java.util.List;
 
-/**
- * Created by RVukela on 2017/04/19.
- */
+
 
 public interface TodoItemsContract {
     interface View{

@@ -18,9 +18,7 @@ import com.rito.todo.data.TodoItem;
 
 import java.util.List;
 
-/**
- * Created by RVukela on 2016/10/25.
- */
+
 
 public class TodoItemsListAdapter extends ArrayAdapter<TodoItem> {
 
