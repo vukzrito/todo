@@ -173,6 +173,7 @@ public class TodoItemsActivity extends AppCompatActivity
     @Override
     public void showTodoItems(List<TodoItem> todoItemList) {
         adapter.updateData(todoItemList);
+        updateProgress(todoItemList);
     }
 
     @Override
@@ -191,10 +192,33 @@ public class TodoItemsActivity extends AppCompatActivity
     public void notifyTodoItemUpdated() {
         Snackbar.make(this.todoRecyclerView.getRootView(), R.string.message_item_updated,
                 Snackbar.LENGTH_LONG).show();
+
     }
 
     public interface TodoItemCheckedListener{
         void onItemChecked(TodoItem item);
         void onItemUnChecked(TodoItem item);
+    }
+
+    private void updateProgress(List<TodoItem> todoItems){
+
+        int nItems = todoItems.size()-1;
+        double percentage = (double)calcCompletedItems(todoItems)/ (double)nItems *100;
+        if(textViewProgressVal!=null){
+            textViewProgressVal.setText((int)percentage + " %");
+            progressBar.setProgress((int)percentage);
+        }
+
+
+    }
+
+    private int calcCompletedItems(List<TodoItem> todoItems){
+        int nCompleted = 0;
+        for(int i=1; i<todoItems.size(); i++){
+            if(todoItems.get(i).isComplete() == TodoItem.ITEM_COMPLETED)
+                nCompleted+=1;
+        }
+
+        return nCompleted;
     }
 }

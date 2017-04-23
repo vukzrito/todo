@@ -97,27 +97,7 @@ public class TodoItemsListAdapter extends RecyclerView.Adapter<TodoItemsListAdap
 
 
 
-    public void calculateProgress(){
 
-        int nItems = todoItems.size()-1;
-        double percentage = (double)calcCompletedItems()/ (double)nItems *100;
-        if(textViewProgressval!=null){
-            textViewProgressval.setText((int)percentage + " %");
-            progressBar.setProgress((int)percentage);
-        }
-
-
-    }
-
-    private int calcCompletedItems(){
-        int nCompleted = 0;
-        for(int i=1; i<todoItems.size(); i++){
-            if(todoItems.get(i).isComplete() == TodoItem.ITEM_COMPLETED)
-                nCompleted+=1;
-        }
-
-        return nCompleted;
-    }
 
     public void updateData(List<TodoItem> todoItems){
         this.todoItems = todoItems;
