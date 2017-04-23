@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.rito.todo.data.TodoContract.TodoEntry;
-import static com.rito.todo.data.TodoContract.TodoEntry.COLUMN_NAME_IS_COMPLETE;
 import static com.rito.todo.data.TodoContract.TodoEntry.TABLE_NAME;
 
 
@@ -57,22 +56,7 @@ public class TodoSQLiteDbHelper extends SQLiteOpenHelper {
         onCreate(database);
     }
 
-    public int getCompletedCount() {
-        String countQuery = "SELECT  * FROM " + TABLE_NAME+" WHERE "+COLUMN_NAME_IS_COMPLETE+"= 1";
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(countQuery, null);
-        int count=0;
-        try{
-             count = cursor.getCount();
 
-
-        }finally {
-            cursor.close();
-            return count;
-
-        }
-
-    }
 
     public TodoItem insertTodoItem(TodoItem item){
         SQLiteDatabase db = getWritableDatabase();
@@ -97,9 +81,6 @@ public class TodoSQLiteDbHelper extends SQLiteOpenHelper {
         return null;
     }
 
-    public TodoItem getTodoItem(long itemId){
-        return null;
-    }
 
     public List<TodoItem>  getAllTodoItems(){
        List<TodoItem> todoItems;
@@ -125,7 +106,6 @@ public class TodoSQLiteDbHelper extends SQLiteOpenHelper {
 
     private List<TodoItem> toTodoItemsList(Cursor resultsCursor){
         List todoItems = new ArrayList();
-        todoItems.add(new TodoItem());
         try {
             while (resultsCursor.moveToNext()) {
                 long itemId = resultsCursor.getLong(resultsCursor.getColumnIndexOrThrow(TodoContract.TodoEntry._ID));

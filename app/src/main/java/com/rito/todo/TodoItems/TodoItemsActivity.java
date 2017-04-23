@@ -202,7 +202,7 @@ public class TodoItemsActivity extends AppCompatActivity
 
     private void updateProgress(List<TodoItem> todoItems){
 
-        int nItems = todoItems.size()-1;
+        int nItems = todoItems.size();
         double percentage = (double)calcCompletedItems(todoItems)/ (double)nItems *100;
         if(textViewProgressVal!=null){
             textViewProgressVal.setText((int)percentage + " %");
@@ -214,7 +214,7 @@ public class TodoItemsActivity extends AppCompatActivity
 
     private int calcCompletedItems(List<TodoItem> todoItems){
         int nCompleted = 0;
-        for(int i=1; i<todoItems.size(); i++){
+        for(int i=0; i<todoItems.size(); i++){
             if(todoItems.get(i).isComplete() == TodoItem.ITEM_COMPLETED)
                 nCompleted+=1;
         }
