@@ -43,8 +43,14 @@ public class TodoItemsRepositoryImpl implements com.rito.todo.todoItems.TodoItem
     }
 
     @Override
-    public void deleteTodoItem(long itemId, DeleteTodoItemCallback callback) {
+    public void deleteTodoItem(long itemId, final DeleteTodoItemCallback callback) {
         //TODO Implement DELETE
+        database.deleteItem(itemId, new TodoDatabase.DeleteItemCallback() {
+            @Override
+            public void onItemDeleted() {
+                callback.onTodoItemDeleted(null);
+            }
+        });
     }
 
     @Override

@@ -42,6 +42,7 @@ public class TodoItemsActivity extends AppCompatActivity
     ProgressBar progressBar;
     private TodoItemsContract.UserActionsListener userActionsListener;
     private TodoItemCheckedListener todoItemCheckedListener;
+    private TodoItemDeleteListener todoItemDeleteListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,8 +115,16 @@ public class TodoItemsActivity extends AppCompatActivity
                 userActionsListener.markItemIncomplete(item.getId());
             }
         };
+
+        todoItemDeleteListener = new TodoItemDeleteListener() {
+            @Override
+            public void onDeleteItem(TodoItem item) {
+                userActionsListener.deleteTodoItem(item.getId());
+            }
+        };
         todoRecyclerView = (RecyclerView) findViewById(R.id.tasks_list);
-        adapter = new TodoItemsListAdapter(new ArrayList<TodoItem>(1), todoItemCheckedListener);
+        adapter = new TodoItemsListAdapter(new ArrayList<TodoItem>(1), todoItemCheckedListener,
+                todoItemDeleteListener);
         todoRecyclerView.setAdapter(adapter);
         todoRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         userActionsListener = new TodoItemsPresenter(this, Injection.provideRepository(this));
@@ -197,6 +206,10 @@ public class TodoItemsActivity extends AppCompatActivity
         void onItemChecked(TodoItem item);
         void onItemUnChecked(TodoItem item);
     }
+    public interface TodoItemDeleteListener{
+        void onDeleteItem(TodoItem item);
+    }
+
 
     private void updateProgress(List<TodoItem> todoItems){
 

@@ -36,4 +36,10 @@ public class TodoDatabaseImpl implements TodoDatabase {
     public void revertItem(long itemId, ModifyItemStatusCallback callback) {
         callback.onItemReverted(dbHelper.updateCompletionStatus(itemId,TodoItem.ITEM_INCOMPLETE ));
     }
+
+    @Override
+    public void deleteItem(long itemId, DeleteItemCallback callback) {
+        dbHelper.deleteItem(itemId);
+        callback.onItemDeleted();
+    }
 }

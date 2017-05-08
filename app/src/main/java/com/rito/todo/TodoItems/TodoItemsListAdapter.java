@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -21,6 +22,7 @@ import static com.rito.todo.todoItems.TodoItemsActivity.TodoItemCheckedListener;
 
 public class TodoItemsListAdapter extends RecyclerView.Adapter<TodoItemsListAdapter.ViewHolder> {
 
+    private final TodoItemsActivity.TodoItemDeleteListener todoItemDeleteListener ;
     private  TodoItemCheckedListener todoItemCheckedListener;
     private List<TodoItem> todoItems;
     //Context context;
@@ -30,11 +32,12 @@ public class TodoItemsListAdapter extends RecyclerView.Adapter<TodoItemsListAdap
 
 
 
-    public TodoItemsListAdapter( List<TodoItem> items, TodoItemCheckedListener
-            todoItemCheckedListener) {
+    public TodoItemsListAdapter(List<TodoItem> items, TodoItemCheckedListener
+            todoItemCheckedListener, TodoItemsActivity.TodoItemDeleteListener todoItemDeleteListener) {
 
         this.todoItems = items;
         this.todoItemCheckedListener = todoItemCheckedListener;
+        this.todoItemDeleteListener = todoItemDeleteListener;
     }
 
     @Nullable
@@ -82,6 +85,14 @@ public class TodoItemsListAdapter extends RecyclerView.Adapter<TodoItemsListAdap
 
             }
         });
+
+        holder.deleteItemButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TodoItem todoItem = getItem(holder.getAdapterPosition());
+                todoItemDeleteListener.onDeleteItem(todoItem);
+            }
+        });
     }
 
     @Override
@@ -110,12 +121,14 @@ public class TodoItemsListAdapter extends RecyclerView.Adapter<TodoItemsListAdap
         TextView titleTextView ;
         TextView descTextView;
         CheckBox itemCheckBox ;
+        ImageButton deleteItemButton;
 
         public ViewHolder(View itemView) {
             super(itemView);
             titleTextView = (TextView) itemView.findViewById(R.id.todo_item_title);
             descTextView = (TextView) itemView.findViewById(R.id.todo_item_description);
             itemCheckBox = (CheckBox) itemView.findViewById(R.id.todo_item_check_box);
+            deleteItemButton = (ImageButton) itemView.findViewById(R.id.todo_item_delete_button);
 
 
         }

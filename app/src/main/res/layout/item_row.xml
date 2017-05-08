@@ -44,6 +44,7 @@
                 android:src="@drawable/ic_delete"
                 android:layout_below="@id/todo_item_check_box"
                 android:scaleType="centerCrop"
+                android:id="@+id/todo_item_delete_button"
                 android:contentDescription="@string/action_description_delete_todo_item"
                 android:cropToPadding="true"
                 android:background="@android:color/transparent" />

@@ -81,6 +81,11 @@ public class TodoSQLiteDbHelper extends SQLiteOpenHelper {
         return null;
     }
 
+    public void deleteItem(long itemId){
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL("DELETE FROM "+TABLE_NAME+ " WHERE "+TodoEntry._ID+" = "+ itemId);
+        db.close();
+    }
 
     public List<TodoItem>  getAllTodoItems(){
        List<TodoItem> todoItems;

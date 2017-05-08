@@ -64,6 +64,7 @@ public class TodoItemsPresenter implements TodoItemsContract.UserActionsListener
             @Override
             public void onTodoItemDeleted(TodoItem item) {
                 loadTodoItems();
+                view.notifyTodoItemDeleted();
             }
         });
     }
