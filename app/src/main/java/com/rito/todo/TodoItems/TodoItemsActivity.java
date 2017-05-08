@@ -24,9 +24,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.rito.todo.R;
-import com.rito.todo.data.TodoDatabaseImpl;
+import com.rito.todo.data.Injection;
 import com.rito.todo.data.TodoItem;
-import com.rito.todo.data.TodoSQLiteDbHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +54,7 @@ public class TodoItemsActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
+        //drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -119,8 +118,7 @@ public class TodoItemsActivity extends AppCompatActivity
         adapter = new TodoItemsListAdapter(new ArrayList<TodoItem>(1), todoItemCheckedListener);
         todoRecyclerView.setAdapter(adapter);
         todoRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-       userActionsListener = new TodoItemsPresenter(this, new TodoItemsRepositoryImpl(
-               new TodoDatabaseImpl(new TodoSQLiteDbHelper(this))));
+        userActionsListener = new TodoItemsPresenter(this, Injection.provideRepository(this));
 
 
     }
