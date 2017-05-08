@@ -11,7 +11,8 @@
         android:layout_height="wrap_content"
         android:focusableInTouchMode="true"
         android:padding="@dimen/activity_horizontal_margin"
-        android:focusable="true">
+        android:focusable="true"
+        android:baselineAligned="false">
         <LinearLayout
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -29,10 +30,24 @@
                 android:id="@+id/todo_item_description"
                 android:text="@string/text_placeholder_description"/>
         </LinearLayout>
-        <CheckBox
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/todo_item_check_box"/>
+            android:orientation="vertical">
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/todo_item_check_box"/>
+            <ImageButton
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_delete"
+                android:layout_below="@id/todo_item_check_box"
+                android:scaleType="centerCrop"
+                android:contentDescription="@string/action_description_delete_todo_item"
+                android:cropToPadding="true"
+                android:background="@android:color/transparent" />
+        </RelativeLayout>
 
     </LinearLayout>
 </android.support.v7.widget.CardView>

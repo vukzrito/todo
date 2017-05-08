@@ -23,4 +23,5 @@
     <string name="message_new_item_added">New todo item added</string>
     <string name="message_item_deleted">"Todo Item deleted "</string>
     <string name="message_item_updated">"Todo Item updated "</string>
+    <string name="action_description_delete_todo_item">Delete todo item button</string>
 </resources>
