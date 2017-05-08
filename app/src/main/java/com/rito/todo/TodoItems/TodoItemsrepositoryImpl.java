@@ -1,4 +1,4 @@
-package com.rito.todo.todoItems;
+package com.rito.todo.TodoItems;
 
 import com.rito.todo.data.TodoDatabase;
 import com.rito.todo.data.TodoItem;
