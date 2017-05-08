@@ -1,14 +1,14 @@
-package com.rito.todo.model;
+package com.rito.todo.data;
 
-/**
- * Created by RVukela on 2016/10/25.
- */
 
 public class TodoItem {
     public long id;
     public String title;
     public String description;
     public int isComplete;
+
+    public static final int ITEM_COMPLETED = 1;
+    public static final int ITEM_INCOMPLETE = 0;
 
     public TodoItem() {
 
