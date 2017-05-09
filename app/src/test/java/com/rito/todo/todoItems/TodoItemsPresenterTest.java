@@ -1,5 +1,8 @@
 package com.rito.todo.todoItems;
 
+import com.rito.todo.TodoItemsList.TodoItemsContract;
+import com.rito.todo.TodoItemsList.TodoItemsPresenter;
+import com.rito.todo.TodoItemsList.TodoItemsRepository;
 import com.rito.todo.data.TodoItem;
 
 import org.junit.Before;
