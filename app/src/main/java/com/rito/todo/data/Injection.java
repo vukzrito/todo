@@ -2,8 +2,8 @@ package com.rito.todo.data;
 
 import android.content.Context;
 
-import com.rito.todo.todoItems.TodoItemsRepository;
-import com.rito.todo.todoItems.TodoItemsRepositoryImpl;
+import com.rito.todo.TodoItemsList.TodoItemsRepository;
+import com.rito.todo.TodoItemsList.TodoItemsrepositoryImpl;
 
 
 public class Injection {
@@ -13,6 +13,6 @@ public class Injection {
 
 
     public static TodoItemsRepository provideRepository(Context ctx) {
-        return new TodoItemsRepositoryImpl(new TodoDatabaseImpl(ctx));
+        return new TodoItemsrepositoryImpl(new TodoDatabaseImpl(ctx));
     }
 }

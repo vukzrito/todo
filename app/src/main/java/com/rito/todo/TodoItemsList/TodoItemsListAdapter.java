@@ -1,4 +1,4 @@
-package com.rito.todo.todoItems;
+package com.rito.todo.TodoItemsList;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
@@ -17,7 +17,7 @@ import com.rito.todo.data.TodoItem;
 
 import java.util.List;
 
-import static com.rito.todo.todoItems.TodoItemsActivity.TodoItemCheckedListener;
+import static com.rito.todo.TodoItemsList.TodoItemsActivity.TodoItemCheckedListener;
 
 
 public class TodoItemsListAdapter extends RecyclerView.Adapter<TodoItemsListAdapter.ViewHolder> {

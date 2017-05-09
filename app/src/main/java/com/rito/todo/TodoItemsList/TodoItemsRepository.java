@@ -1,4 +1,4 @@
-package com.rito.todo.todoItems;
+package com.rito.todo.TodoItemsList;
 
 import com.rito.todo.data.TodoItem;
 

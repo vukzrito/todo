@@ -1,4 +1,4 @@
-package com.rito.todo.TodoItems;
+package com.rito.todo.TodoItemsList;
 
 import com.rito.todo.data.TodoDatabase;
 import com.rito.todo.data.TodoItem;
@@ -6,9 +6,9 @@ import com.rito.todo.data.TodoItem;
 import java.util.List;
 
 
-public class TodoItemsRepositoryImpl implements com.rito.todo.todoItems.TodoItemsRepository {
+public class TodoItemsrepositoryImpl implements TodoItemsRepository {
     private TodoDatabase database;
-    public TodoItemsRepositoryImpl(TodoDatabase database) {
+    public TodoItemsrepositoryImpl(TodoDatabase database) {
         this.database = database;
     }
 
