@@ -35,6 +35,7 @@ public class TodoSQLiteDbHelper extends SQLiteOpenHelper {
 
     public TodoSQLiteDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        //((TodoApplication)context).getAppComponent().inject(this);
     }
 
 

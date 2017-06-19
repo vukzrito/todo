@@ -1,5 +1,7 @@
 package com.rito.todo.injection;
 
+import android.content.Context;
+
 import com.rito.todo.TodoItemsList.TodoItemsContract;
 import com.rito.todo.TodoItemsList.TodoItemsPresenter;
 
@@ -13,7 +15,7 @@ public class PresenterModule {
 
     @Provides
     @Singleton
-    TodoItemsContract.UserActionsListener provideTodoItemsPresenter(){
-        return new TodoItemsPresenter();
+    TodoItemsContract.UserActionsListener provideTodoItemsPresenter(Context context){
+        return new TodoItemsPresenter(context);
     }
 }

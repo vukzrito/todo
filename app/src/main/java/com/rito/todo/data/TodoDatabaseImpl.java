@@ -3,11 +3,18 @@ package com.rito.todo.data;
 
 import android.content.Context;
 
-public class TodoDatabaseImpl implements TodoDatabase {
-    private TodoSQLiteDbHelper dbHelper;
+import com.rito.todo.injection.TodoApplication;
 
+import javax.inject.Inject;
+
+public class TodoDatabaseImpl implements TodoDatabase {
+    @Inject
+    TodoSQLiteDbHelper dbHelper;
+
+    @Inject
     public TodoDatabaseImpl(Context context) {
-        dbHelper = Injection.provideDataBaseHelper(context);
+       // dbHelper = Injection.provideDataBaseHelper();
+        ((TodoApplication)context).getAppComponent().inject(this);
     }
 
 

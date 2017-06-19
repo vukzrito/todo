@@ -65,7 +65,7 @@ public class TodoItemsActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
+        userActionsListener.setView(this);
         textViewProgressVal = (TextView) findViewById(R.id.todo_items_progress_value);
         progressBar = (ProgressBar) findViewById(R.id.progress_bar);
         inputNewItemTitle = (EditText) findViewById(R.id.text_input_new_item_title);

@@ -44,7 +44,7 @@ public class TodoItemsPresenterTest {
     @Before
     public void setUp(){
         MockitoAnnotations.initMocks(this);
-        presenter = new TodoItemsPresenter(itemsViews, itemsRepository);
+        presenter = new TodoItemsPresenter();
         TODO_ITEMS.add(new TodoItem(10,"Test", "Desc", 0));
         todoItem = new TodoItem(2,"Test", "Desc", 0);
     }

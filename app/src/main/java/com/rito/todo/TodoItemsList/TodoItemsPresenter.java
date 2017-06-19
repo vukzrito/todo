@@ -1,6 +1,9 @@
 package com.rito.todo.TodoItemsList;
 
+import android.content.Context;
+
 import com.rito.todo.data.TodoItem;
+import com.rito.todo.injection.TodoApplication;
 
 import java.util.List;
 
@@ -12,7 +15,9 @@ public class TodoItemsPresenter implements TodoItemsContract.UserActionsListener
     @Inject
     TodoItemsRepository repository;
 
-    public TodoItemsPresenter() {
+
+    public TodoItemsPresenter(Context context) {
+        ((TodoApplication)context).getAppComponent().inject(this);
     }
 
     @Override
