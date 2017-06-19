@@ -11,13 +11,13 @@ import javax.inject.Inject;
 
 
 public class TodoItemsPresenter implements TodoItemsContract.UserActionsListener {
-    private TodoItemsContract.View view;
     @Inject
     TodoItemsRepository repository;
+    private TodoItemsContract.View view;
 
 
     public TodoItemsPresenter(Context context) {
-        ((TodoApplication)context).getAppComponent().inject(this);
+        ((TodoApplication) context).getAppComponent().inject(this);
     }
 
     @Override

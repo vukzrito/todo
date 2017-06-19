@@ -14,23 +14,19 @@ import static com.rito.todo.data.TodoContract.TodoEntry;
 import static com.rito.todo.data.TodoContract.TodoEntry.TABLE_NAME;
 
 
-
 public class TodoSQLiteDbHelper extends SQLiteOpenHelper {
-    public static final String TEXT_TYPE= " TEXT";
-    public static final String INT_TYPE= " INTEGER";
-    public  static final String COMMA_SEP= ",";
-    private static final String SQL_CREATE_ENTRIES ="CREATE TABLE " + TABLE_NAME + " (" +
-                                            TodoEntry._ID + " INTEGER PRIMARY KEY," +
-                                            TodoEntry.COLUMN_NAME_TITLE + TEXT_TYPE + COMMA_SEP +
-                                            TodoEntry.COLUMN_NAME_DESCRIPTION + TEXT_TYPE + COMMA_SEP+
-                                            TodoEntry.COLUMN_NAME_IS_COMPLETE + INT_TYPE + " )";
-
-    private static final String SQL_DELETE_ENTRIES =
-            "DROP TABLE IF EXISTS " + TABLE_NAME;
-
-
+    public static final String TEXT_TYPE = " TEXT";
+    public static final String INT_TYPE = " INTEGER";
+    public static final String COMMA_SEP = ",";
     public static final int DATABASE_VERSION = 7;
     public static final String DATABASE_NAME = "todo.db";
+    private static final String SQL_CREATE_ENTRIES = "CREATE TABLE " + TABLE_NAME + " (" +
+            TodoEntry._ID + " INTEGER PRIMARY KEY," +
+            TodoEntry.COLUMN_NAME_TITLE + TEXT_TYPE + COMMA_SEP +
+            TodoEntry.COLUMN_NAME_DESCRIPTION + TEXT_TYPE + COMMA_SEP +
+            TodoEntry.COLUMN_NAME_IS_COMPLETE + INT_TYPE + " )";
+    private static final String SQL_DELETE_ENTRIES =
+            "DROP TABLE IF EXISTS " + TABLE_NAME;
 
 
     public TodoSQLiteDbHelper(Context context) {
@@ -58,8 +54,7 @@ public class TodoSQLiteDbHelper extends SQLiteOpenHelper {
     }
 
 
-
-    public TodoItem insertTodoItem(TodoItem item){
+    public TodoItem insertTodoItem(TodoItem item) {
         SQLiteDatabase db = getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -69,27 +64,27 @@ public class TodoSQLiteDbHelper extends SQLiteOpenHelper {
 
         long newRowId = db.insert(TodoContract.TodoEntry.TABLE_NAME, null, values);
         item.setId(newRowId);
-        return  item;
+        return item;
     }
 
-    public TodoItem updateCompletionStatus(long itemId, int status){
+    public TodoItem updateCompletionStatus(long itemId, int status) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues args = new ContentValues();
-        args.put( TodoContract.TodoEntry.COLUMN_NAME_IS_COMPLETE, status);
+        args.put(TodoContract.TodoEntry.COLUMN_NAME_IS_COMPLETE, status);
         db.update(TodoContract.TodoEntry.TABLE_NAME, args, TodoContract.TodoEntry._ID + "=" + itemId, null);
 
         db.close();
         return null;
     }
 
-    public void deleteItem(long itemId){
+    public void deleteItem(long itemId) {
         SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("DELETE FROM "+TABLE_NAME+ " WHERE "+TodoEntry._ID+" = "+ itemId);
+        db.execSQL("DELETE FROM " + TABLE_NAME + " WHERE " + TodoEntry._ID + " = " + itemId);
         db.close();
     }
 
-    public List<TodoItem>  getAllTodoItems(){
-       List<TodoItem> todoItems;
+    public List<TodoItem> getAllTodoItems() {
+        List<TodoItem> todoItems;
 
         SQLiteDatabase db = getReadableDatabase();
 
@@ -103,22 +98,22 @@ public class TodoSQLiteDbHelper extends SQLiteOpenHelper {
 
         String sortOrder = TodoContract.TodoEntry.COLUMN_NAME_DESCRIPTION + " DESC";
 
-        Cursor resultsCursor = db.query(TodoContract.TodoEntry.TABLE_NAME,projection,
-                                 null,null,null,null,sortOrder);
+        Cursor resultsCursor = db.query(TodoContract.TodoEntry.TABLE_NAME, projection,
+                null, null, null, null, sortOrder);
         todoItems = toTodoItemsList(resultsCursor);
         resultsCursor.close();
         return todoItems;
     }
 
-    private List<TodoItem> toTodoItemsList(Cursor resultsCursor){
+    private List<TodoItem> toTodoItemsList(Cursor resultsCursor) {
         List todoItems = new ArrayList();
         try {
             while (resultsCursor.moveToNext()) {
                 long itemId = resultsCursor.getLong(resultsCursor.getColumnIndexOrThrow(TodoContract.TodoEntry._ID));
-                String itemTitle =resultsCursor.getString(resultsCursor.getColumnIndexOrThrow(TodoContract.TodoEntry.COLUMN_NAME_TITLE));
-                String itemDescription =resultsCursor.getString(resultsCursor.getColumnIndexOrThrow(TodoContract.TodoEntry.COLUMN_NAME_DESCRIPTION));
+                String itemTitle = resultsCursor.getString(resultsCursor.getColumnIndexOrThrow(TodoContract.TodoEntry.COLUMN_NAME_TITLE));
+                String itemDescription = resultsCursor.getString(resultsCursor.getColumnIndexOrThrow(TodoContract.TodoEntry.COLUMN_NAME_DESCRIPTION));
                 int isComplete = resultsCursor.getInt(resultsCursor.getColumnIndex(TodoContract.TodoEntry.COLUMN_NAME_IS_COMPLETE));
-                TodoItem item = new TodoItem(itemId,itemTitle,itemDescription,isComplete);
+                TodoItem item = new TodoItem(itemId, itemTitle, itemDescription, isComplete);
                 Log.v("Item", item.toString());
                 todoItems.add(item);
             }
@@ -126,6 +121,6 @@ public class TodoSQLiteDbHelper extends SQLiteOpenHelper {
             resultsCursor.close();
         }
 
-        return  todoItems;
+        return todoItems;
     }
 }

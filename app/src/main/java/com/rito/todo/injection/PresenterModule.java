@@ -15,7 +15,7 @@ public class PresenterModule {
 
     @Provides
     @Singleton
-    TodoItemsContract.UserActionsListener provideTodoItemsPresenter(Context context){
+    TodoItemsContract.UserActionsListener provideTodoItemsPresenter(Context context) {
         return new TodoItemsPresenter(context);
     }
 }

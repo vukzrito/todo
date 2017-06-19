@@ -33,7 +33,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 public class TodoItemsActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,TodoItemsContract.View {
+        implements NavigationView.OnNavigationItemSelectedListener, TodoItemsContract.View {
 
     RecyclerView todoRecyclerView;
     TodoItemsListAdapter adapter;
@@ -53,7 +53,7 @@ public class TodoItemsActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        ((TodoApplication)getApplication()).getAppComponent().inject(this);
+        ((TodoApplication) getApplication()).getAppComponent().inject(this);
 
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -77,11 +77,11 @@ public class TodoItemsActivity extends AppCompatActivity
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    if(charSequence.length()>0){
-                        inputNewItemDesc.setVisibility(View.VISIBLE);
-                    }else{
-                        inputNewItemDesc.setVisibility(View.GONE);
-                    }
+                if (charSequence.length() > 0) {
+                    inputNewItemDesc.setVisibility(View.VISIBLE);
+                } else {
+                    inputNewItemDesc.setVisibility(View.GONE);
+                }
             }
 
             @Override
@@ -94,12 +94,12 @@ public class TodoItemsActivity extends AppCompatActivity
         btnAddNewItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String title= inputNewItemTitle.getText().toString();
-                if(title.isEmpty()){
+                String title = inputNewItemTitle.getText().toString();
+                if (title.isEmpty()) {
                     return;
                 }
-                String desc=inputNewItemDesc.getText().toString();
-                TodoItem todoItem= new TodoItem(title,desc,0 );
+                String desc = inputNewItemDesc.getText().toString();
+                TodoItem todoItem = new TodoItem(title, desc, 0);
                 userActionsListener.addNewItem(todoItem);
                 adapter.notifyDataSetChanged();
 
@@ -179,7 +179,6 @@ public class TodoItemsActivity extends AppCompatActivity
     }
 
 
-
     @Override
     public void showTodoItems(List<TodoItem> todoItemList) {
         adapter.updateData(todoItemList);
@@ -205,34 +204,36 @@ public class TodoItemsActivity extends AppCompatActivity
 
     }
 
-    public interface TodoItemCheckedListener{
-        void onItemChecked(TodoItem item);
-        void onItemUnChecked(TodoItem item);
-    }
-    public interface TodoItemDeleteListener{
-        void onDeleteItem(TodoItem item);
-    }
-
-
-    private void updateProgress(List<TodoItem> todoItems){
+    private void updateProgress(List<TodoItem> todoItems) {
 
         int nItems = todoItems.size();
-        double percentage = (double)calcCompletedItems(todoItems)/ (double)nItems *100;
-        if(textViewProgressVal!=null){
-            textViewProgressVal.setText((int)percentage + " %");
-            progressBar.setProgress((int)percentage);
+        double percentage = (double) calcCompletedItems(todoItems) / (double) nItems * 100;
+        if (textViewProgressVal != null) {
+            textViewProgressVal.setText((int) percentage + " %");
+            progressBar.setProgress((int) percentage);
         }
 
 
     }
 
-    private int calcCompletedItems(List<TodoItem> todoItems){
+    private int calcCompletedItems(List<TodoItem> todoItems) {
         int nCompleted = 0;
-        for(int i=0; i<todoItems.size(); i++){
-            if(todoItems.get(i).isComplete() == TodoItem.ITEM_COMPLETED)
-                nCompleted+=1;
+        for (int i = 0; i < todoItems.size(); i++) {
+            if (todoItems.get(i).isComplete() == TodoItem.ITEM_COMPLETED)
+                nCompleted += 1;
         }
 
         return nCompleted;
+    }
+
+
+    public interface TodoItemCheckedListener {
+        void onItemChecked(TodoItem item);
+
+        void onItemUnChecked(TodoItem item);
+    }
+
+    public interface TodoItemDeleteListener {
+        void onDeleteItem(TodoItem item);
     }
 }

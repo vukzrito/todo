@@ -17,7 +17,7 @@ public class TodoItemsRepositoryImpl implements TodoItemsRepository {
     TodoDatabase database;
 
     public TodoItemsRepositoryImpl(Context context) {
-        ((TodoApplication)context).getAppComponent().inject(this);
+        ((TodoApplication) context).getAppComponent().inject(this);
     }
 
     @Override

@@ -13,8 +13,8 @@ public class TodoDatabaseImpl implements TodoDatabase {
 
     @Inject
     public TodoDatabaseImpl(Context context) {
-       // dbHelper = Injection.provideDataBaseHelper();
-        ((TodoApplication)context).getAppComponent().inject(this);
+        // dbHelper = Injection.provideDataBaseHelper();
+        ((TodoApplication) context).getAppComponent().inject(this);
     }
 
 
@@ -25,7 +25,7 @@ public class TodoDatabaseImpl implements TodoDatabase {
 
     @Override
     public void retrieveAllItems(RetrieveItemsCallback callback) {
-       callback.onItemsRetrieved( dbHelper.getAllTodoItems());
+        callback.onItemsRetrieved(dbHelper.getAllTodoItems());
     }
 
     @Override
@@ -36,12 +36,12 @@ public class TodoDatabaseImpl implements TodoDatabase {
 
     @Override
     public void completeItem(long itemId, ModifyItemStatusCallback callback) {
-        callback.onItemCompleted(dbHelper.updateCompletionStatus(itemId,TodoItem.ITEM_COMPLETED ));
+        callback.onItemCompleted(dbHelper.updateCompletionStatus(itemId, TodoItem.ITEM_COMPLETED));
     }
 
     @Override
     public void revertItem(long itemId, ModifyItemStatusCallback callback) {
-        callback.onItemReverted(dbHelper.updateCompletionStatus(itemId,TodoItem.ITEM_INCOMPLETE ));
+        callback.onItemReverted(dbHelper.updateCompletionStatus(itemId, TodoItem.ITEM_INCOMPLETE));
     }
 
     @Override
