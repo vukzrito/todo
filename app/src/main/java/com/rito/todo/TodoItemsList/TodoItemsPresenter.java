@@ -4,15 +4,20 @@ import com.rito.todo.data.TodoItem;
 
 import java.util.List;
 
+import javax.inject.Inject;
 
 
 public class TodoItemsPresenter implements TodoItemsContract.UserActionsListener {
     private TodoItemsContract.View view;
-    private TodoItemsRepository repository;
+    @Inject
+    TodoItemsRepository repository;
 
-    public TodoItemsPresenter(TodoItemsContract.View view, TodoItemsRepository repository) {
+    public TodoItemsPresenter() {
+    }
+
+    @Override
+    public void setView(TodoItemsContract.View view) {
         this.view = view;
-        this.repository = repository;
     }
 
     @Override

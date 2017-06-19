@@ -24,11 +24,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.rito.todo.R;
-import com.rito.todo.data.Injection;
 import com.rito.todo.data.TodoItem;
+import com.rito.todo.injection.TodoApplication;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 public class TodoItemsActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,TodoItemsContract.View {
@@ -40,7 +42,8 @@ public class TodoItemsActivity extends AppCompatActivity
     TextView textViewProgressVal;
     EditText inputNewItemDesc;
     ProgressBar progressBar;
-    private TodoItemsContract.UserActionsListener userActionsListener;
+    @Inject
+    TodoItemsContract.UserActionsListener userActionsListener;
     private TodoItemCheckedListener todoItemCheckedListener;
     private TodoItemDeleteListener todoItemDeleteListener;
 
@@ -50,6 +53,7 @@ public class TodoItemsActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        ((TodoApplication)getApplication()).getAppComponent().inject(this);
 
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -127,7 +131,6 @@ public class TodoItemsActivity extends AppCompatActivity
                 todoItemDeleteListener);
         todoRecyclerView.setAdapter(adapter);
         todoRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        userActionsListener = new TodoItemsPresenter(this, Injection.provideRepository(this));
 
 
     }

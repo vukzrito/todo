@@ -16,6 +16,7 @@ public interface TodoItemsContract {
     }
 
     interface UserActionsListener{
+        void setView(View view);
         void markItemComplete(long itemId);
         void markItemIncomplete(long itemId);
         void addNewItem(TodoItem item);
