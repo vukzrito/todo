@@ -1,9 +1,8 @@
 package com.rito.todo.injection;
 
-import android.content.Context;
-
-import com.rito.todo.TodoItemsList.TodoItemsContract;
-import com.rito.todo.TodoItemsList.TodoItemsPresenter;
+import com.rito.todo.TodoItemsList.TodoItemsRepository;
+import com.rito.todo.TodoItemsList.TodoItemsRepositoryImpl;
+import com.rito.todo.data.TodoDatabase;
 
 import javax.inject.Singleton;
 
@@ -12,10 +11,9 @@ import dagger.Provides;
 
 @Module
 public class PresenterModule {
-
-    @Provides
     @Singleton
-    TodoItemsContract.UserActionsListener provideTodoItemsPresenter(Context context) {
-        return new TodoItemsPresenter(context);
+    @Provides
+    TodoItemsRepository provideTodoRepository(TodoDatabase todoDatabase) {
+        return new TodoItemsRepositoryImpl(todoDatabase);
     }
 }

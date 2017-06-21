@@ -1,10 +1,7 @@
 package com.rito.todo.TodoItemsList;
 
-import android.content.Context;
-
 import com.rito.todo.data.TodoDatabase;
 import com.rito.todo.data.TodoItem;
-import com.rito.todo.injection.TodoApplication;
 
 import java.util.List;
 
@@ -16,8 +13,8 @@ public class TodoItemsRepositoryImpl implements TodoItemsRepository {
     @Inject
     TodoDatabase database;
 
-    public TodoItemsRepositoryImpl(Context context) {
-        ((TodoApplication) context).getAppComponent().inject(this);
+    public TodoItemsRepositoryImpl(TodoDatabase todoDatabase) {
+        this.database = todoDatabase;
     }
 
     @Override
