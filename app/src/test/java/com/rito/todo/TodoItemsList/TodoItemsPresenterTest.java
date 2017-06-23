@@ -1,5 +1,6 @@
 package com.rito.todo.TodoItemsList;
 
+import com.rito.todo.data.TodoDatabase;
 import com.rito.todo.data.TodoItem;
 
 import org.junit.Before;
@@ -25,6 +26,8 @@ public class TodoItemsPresenterTest {
     private TodoItemsRepository itemsRepository;
     @Mock
     private TodoItemsContract.View itemsViews;
+    @Mock
+    TodoDatabase todoDatabase;
     private TodoItemsPresenter presenter;
     @Captor
     private ArgumentCaptor<TodoItemsRepository.LoadTodoItemsCallback> loadItemsArgumentCaptor;
@@ -40,7 +43,8 @@ public class TodoItemsPresenterTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        presenter = new TodoItemsPresenter(new TodoItemsRepositoryImpl(null));
+        presenter = new TodoItemsPresenter(itemsRepository);
+        presenter.setView(itemsViews);
         TODO_ITEMS.add(new TodoItem(10, "Test", "Desc", 0));
         todoItem = new TodoItem(2, "Test", "Desc", 0);
     }
