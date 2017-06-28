@@ -1,13 +1,16 @@
 package com.rito.todo.data;
 
 
-import android.content.Context;
+import javax.inject.Inject;
 
 public class TodoDatabaseImpl implements TodoDatabase {
-    private TodoSQLiteDbHelper dbHelper;
+    @Inject
+    TodoSQLiteDbHelper dbHelper;
 
-    public TodoDatabaseImpl(Context context) {
-        dbHelper = Injection.provideDataBaseHelper(context);
+    @Inject
+    public TodoDatabaseImpl(TodoSQLiteDbHelper todoSQLiteDbHelper) {
+        // dbHelper = Injection.provideDataBaseHelper();
+        this.dbHelper = todoSQLiteDbHelper;
     }
 
 
@@ -18,7 +21,7 @@ public class TodoDatabaseImpl implements TodoDatabase {
 
     @Override
     public void retrieveAllItems(RetrieveItemsCallback callback) {
-       callback.onItemsRetrieved( dbHelper.getAllTodoItems());
+        callback.onItemsRetrieved(dbHelper.getAllTodoItems());
     }
 
     @Override
@@ -29,12 +32,12 @@ public class TodoDatabaseImpl implements TodoDatabase {
 
     @Override
     public void completeItem(long itemId, ModifyItemStatusCallback callback) {
-        callback.onItemCompleted(dbHelper.updateCompletionStatus(itemId,TodoItem.ITEM_COMPLETED ));
+        callback.onItemCompleted(dbHelper.updateCompletionStatus(itemId, TodoItem.ITEM_COMPLETED));
     }
 
     @Override
     public void revertItem(long itemId, ModifyItemStatusCallback callback) {
-        callback.onItemReverted(dbHelper.updateCompletionStatus(itemId,TodoItem.ITEM_INCOMPLETE ));
+        callback.onItemReverted(dbHelper.updateCompletionStatus(itemId, TodoItem.ITEM_INCOMPLETE));
     }
 
     @Override

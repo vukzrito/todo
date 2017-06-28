@@ -1,8 +1,6 @@
-package com.rito.todo.todoItems;
+package com.rito.todo.TodoItemsList;
 
-import com.rito.todo.TodoItemsList.TodoItemsContract;
-import com.rito.todo.TodoItemsList.TodoItemsPresenter;
-import com.rito.todo.TodoItemsList.TodoItemsRepository;
+import com.rito.todo.data.TodoDatabase;
 import com.rito.todo.data.TodoItem;
 
 import org.junit.Before;
@@ -23,12 +21,13 @@ public class TodoItemsPresenterTest {
 
     private static final List<TodoItem> TODO_ITEMS = new ArrayList<>(1);
     @Mock
+    public static TodoItem todoItem;
+    @Mock
     private TodoItemsRepository itemsRepository;
     @Mock
     private TodoItemsContract.View itemsViews;
     @Mock
-    public static TodoItem todoItem;
-
+    TodoDatabase todoDatabase;
     private TodoItemsPresenter presenter;
     @Captor
     private ArgumentCaptor<TodoItemsRepository.LoadTodoItemsCallback> loadItemsArgumentCaptor;
@@ -42,29 +41,30 @@ public class TodoItemsPresenterTest {
     private ArgumentCaptor<TodoItemsRepository.DeleteTodoItemCallback> deleteItemArgumentCaptor;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
-        presenter = new TodoItemsPresenter(itemsViews, itemsRepository);
-        TODO_ITEMS.add(new TodoItem(10,"Test", "Desc", 0));
-        todoItem = new TodoItem(2,"Test", "Desc", 0);
+        presenter = new TodoItemsPresenter(itemsRepository);
+        presenter.setView(itemsViews);
+        TODO_ITEMS.add(new TodoItem(10, "Test", "Desc", 0));
+        todoItem = new TodoItem(2, "Test", "Desc", 0);
     }
 
     @Test
-    public void markItemComplete()  {
+    public void markItemComplete() {
         presenter.markItemComplete(todoItem.getId());
         verify(itemsRepository).completeTodoItem(any(long.class), completeItemArgumentCaptor.capture());
         completeItemArgumentCaptor.getValue().onTodoItemCompleted(todoItem);
     }
 
     @Test
-    public void markItemIncomplete(){
+    public void markItemIncomplete() {
         presenter.markItemIncomplete(todoItem.getId());
-        verify(itemsRepository).revertTodoItem(any(long.class),revertItemArgumentCaptor.capture());
+        verify(itemsRepository).revertTodoItem(any(long.class), revertItemArgumentCaptor.capture());
         revertItemArgumentCaptor.getValue().onTodoItemReverted(todoItem);
     }
 
     @Test
-    public void addNewItem(){
+    public void addNewItem() {
         presenter.addNewItem(todoItem);
         verify(itemsRepository).createTodoItem(any(TodoItem.class), createItemArgumentCaptor.capture());
         createItemArgumentCaptor.getValue().onTodoItemCreated(todoItem);
@@ -72,7 +72,7 @@ public class TodoItemsPresenterTest {
     }
 
     @Test
-    public void loadTodoItems(){
+    public void loadTodoItems() {
         presenter.loadTodoItems();
         verify(itemsRepository).loadTodoItems(loadItemsArgumentCaptor.capture());
         loadItemsArgumentCaptor.getValue().onTodoItemsLoaded(TODO_ITEMS);
@@ -80,9 +80,9 @@ public class TodoItemsPresenterTest {
     }
 
     @Test
-    public void deleteTodoItem(){
+    public void deleteTodoItem() {
         presenter.deleteTodoItem(todoItem.getId());
-        verify(itemsRepository).deleteTodoItem(any(long.class),deleteItemArgumentCaptor.capture() );
+        verify(itemsRepository).deleteTodoItem(any(long.class), deleteItemArgumentCaptor.capture());
         deleteItemArgumentCaptor.getValue().onTodoItemDeleted(todoItem);
     }
 

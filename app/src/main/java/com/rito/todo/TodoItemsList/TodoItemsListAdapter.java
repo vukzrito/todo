@@ -22,14 +22,12 @@ import static com.rito.todo.TodoItemsList.TodoItemsActivity.TodoItemCheckedListe
 
 public class TodoItemsListAdapter extends RecyclerView.Adapter<TodoItemsListAdapter.ViewHolder> {
 
-    private final TodoItemsActivity.TodoItemDeleteListener todoItemDeleteListener ;
-    private  TodoItemCheckedListener todoItemCheckedListener;
+    private final TodoItemsActivity.TodoItemDeleteListener todoItemDeleteListener;
+    private TodoItemCheckedListener todoItemCheckedListener;
     private List<TodoItem> todoItems;
     //Context context;
     private ProgressBar progressBar;
     private TextView textViewProgressval;
-
-
 
 
     public TodoItemsListAdapter(List<TodoItem> items, TodoItemCheckedListener
@@ -64,7 +62,7 @@ public class TodoItemsListAdapter extends RecyclerView.Adapter<TodoItemsListAdap
         TodoItem item = todoItems.get(position);
         holder.titleTextView.setText(item.getTitle());
         holder.descTextView.setText(item.getDescription());
-        if(item.isComplete()==TodoItem.ITEM_COMPLETED)
+        if (item.isComplete() == TodoItem.ITEM_COMPLETED)
             holder.itemCheckBox.setChecked(true);
 
         holder.itemCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -72,10 +70,10 @@ public class TodoItemsListAdapter extends RecyclerView.Adapter<TodoItemsListAdap
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
 
                 TodoItem todoItem = getItem(holder.getAdapterPosition());
-                if(isChecked){
+                if (isChecked) {
 
                     todoItemCheckedListener.onItemChecked(todoItem);
-                }else{
+                } else {
 
                     todoItemCheckedListener.onItemUnChecked(todoItem);
                 }
@@ -106,11 +104,7 @@ public class TodoItemsListAdapter extends RecyclerView.Adapter<TodoItemsListAdap
     }
 
 
-
-
-
-
-    public void updateData(List<TodoItem> todoItems){
+    public void updateData(List<TodoItem> todoItems) {
         this.todoItems = todoItems;
         notifyDataSetChanged();
         //calculateProgress();
@@ -118,9 +112,9 @@ public class TodoItemsListAdapter extends RecyclerView.Adapter<TodoItemsListAdap
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView titleTextView ;
+        TextView titleTextView;
         TextView descTextView;
-        CheckBox itemCheckBox ;
+        CheckBox itemCheckBox;
         ImageButton deleteItemButton;
 
         public ViewHolder(View itemView) {

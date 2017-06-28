@@ -5,11 +5,16 @@ import com.rito.todo.data.TodoItem;
 
 import java.util.List;
 
+import javax.inject.Inject;
 
-public class TodoItemsrepositoryImpl implements TodoItemsRepository {
-    private TodoDatabase database;
-    public TodoItemsrepositoryImpl(TodoDatabase database) {
-        this.database = database;
+
+public class TodoItemsRepositoryImpl implements TodoItemsRepository {
+
+    @Inject
+    TodoDatabase database;
+
+    public TodoItemsRepositoryImpl(TodoDatabase todoDatabase) {
+        this.database = todoDatabase;
     }
 
     @Override
